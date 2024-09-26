@@ -1,0 +1,35 @@
+Sample_Sentences = "I played the play playfully as the players were playing in the play with playfullness"
+
+import nltk
+nltk.download('averaged_perceptron_tagger')
+
+from nltk.tokenize import sent_tokenize
+
+sentences = sent_tokenize(Sample_Sentences)
+
+sentences
+
+from nltk import word_tokenize, sent_tokenize
+sentences = sent_tokenize(Sample_Sentences)
+tokenized_words = [word_tokenize(sentence) for sentence in sentences]
+print('sentences words: ',sentences )
+print('Tokenized words:', tokenized_words)
+
+from nltk import pos_tag
+tokenized_words = word_tokenize(Sample_Sentences)
+pos_tags = pos_tag(tokenized_words)
+print("Tagging Parts of Speech:", pos_tags)
+
+
+from nltk.corpus import stopwords
+stop_words = set(stopwords.words('english'))
+filtered_tokens = [word for word in tokenized_words if word.lower() not in stop_words]
+print("Filtered Tokens after Stop Words Removal:", filtered_tokens)
+
+
+from nltk.stem import WordNetLemmatizer 
+lemmatizer = WordNetLemmatizer()
+lemmatized_tokens = [lemmatizer.lemmatize(word) for word in filtered_tokens]
+print("Lemmatized Tokens:", lemmatized_tokens)
+
+preprocessed_text = ' '.join(lemmatized_tokens)

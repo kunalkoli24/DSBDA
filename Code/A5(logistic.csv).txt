@@ -1,0 +1,65 @@
+import numpy as np
+import pandas as pd
+
+df = pd.read_csv('Social_Network_Ads.csv')
+
+df.head()
+
+df.info()
+
+df.describe()
+
+X = df[['Age', 'EstimatedSalary']]
+Y = df['Purchased']
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.25, random_state = 0)
+print(f'Train Dataset Size - X: {X_train.shape}, Y: {Y_train.shape}')
+print(f'Test  Dataset Size - X: {X_test.shape}, Y: {Y_test.shape}')
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.linear_model import LogisticRegression
+
+lm = LogisticRegression(random_state = 0, solver='lbfgs' )
+lm.fit(X_train, Y_train)
+predictions = lm.predict(X_test)
+
+from sklearn.metrics import classification_report
+cm = classification_report(Y_test, predictions)
+print('Classification report : \n', cm)
+
+from sklearn.metrics import classification_report, confusion_matrix
+conf_matrix = confusion_matrix(Y_test, predictions)
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', cbar=False)
+plt.xlabel('Predicted labels')
+plt.ylabel('True labels')
+plt.title('Confusion Matrix')
+plt.show()
+
+
+
+y_pred = lm.predict(X_test)  
+cm = confusion_matrix(Y_test, y_pred)
+
+TN = cm[1, 1]
+FP = cm[1, 0]
+FN = cm[0, 1]
+TP = cm[0, 0]
+
+accuracy = (TP + TN) / float(TP + TN + FP + FN)
+error_rate = (FP + FN) / float(TP + TN + FP + FN)
+precision = TP / float(TP + FP)
+recall = TP / float(TP + FN)
+
+print("\nPerformance Metrics:")
+print("True Positives (TP):", TP)
+print("False Positives (FP):", FP)
+print("True Negatives (TN):", TN)
+print("False Negatives (FN):", FN)
+print("Accuracy:", accuracy)
+print("Error Rate:", error_rate)
+print("Precision:", precision)
+print("Recall:", recall)

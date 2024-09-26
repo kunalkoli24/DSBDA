@@ -1,0 +1,30 @@
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv("Titanic.csv")
+
+df.head()
+
+df.tail()
+
+df.isnull().sum()
+
+df.describe()
+
+df.shape
+
+df['Age'] = df['Age'].astype('int64')
+
+df.info()
+
+df = pd.get_dummies(df, columns=['Sex'], prefix='Sex')
+df.head()
+
+df.info()
+
+df['Sex_female'] = df['Sex_female'].astype(int)
+df['Sex_male'] = df['Sex_male'].astype(int)
+df.head()
+
+df.drop(columns='Sex_male', inplace=True)
+df.head()

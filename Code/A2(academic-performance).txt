@@ -1,0 +1,85 @@
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv("A2.csv")
+df.head()
+
+df.shape
+
+df.dtypes
+
+df.isna().sum()
+
+cols_with_na = []
+for col in df.columns:
+    if df[col].isna().any():
+        cols_with_na.append(col)
+
+cols_with_na
+
+
+for col in cols_with_na:
+    col_dt = df[col].dtypes
+    if (col_dt == 'int64' or col_dt == 'float64'):
+        outliers = (df[col] < 0) | (100 < df[col])
+        df.loc[outliers, col] = np.nan
+        df[col] = df[col].fillna(df[col].mean())
+    else:
+        df[col] = df[col].fillna(method='ffill')
+df.head()
+
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+df_list = ['maths score', 'writing score', 'reading score',
+           'placement score', 'clubjoining', 'placementoffercount']
+fig, axes = plt.subplots(2, 3, figsize=(9, 6), dpi=120)
+
+for i, ax in enumerate(axes.flat):
+    if i < len(df_list):
+        df[df_list[i]].plot(kind='box', ax=ax)
+        ax.set_title(df_list[i])
+    else:
+        ax.axis('off')
+
+plt.tight_layout() 
+plt.show()
+
+
+Q1 = df['writing score'].quantile(0.25)
+Q3 = df['writing score'].quantile(0.75)
+IQR = Q3 - Q1
+
+Lower_limit = Q1 - 1.5 * IQR
+Upper_limit = Q3 + 1.5 * IQR
+
+print(f'Q1 = {Q1}, Q3 = {Q3}, IQR = {IQR}, Lower_limit = {Lower_limit}, Upper_limit = {Upper_limit}')
+
+
+df[(df['writing score'] < Lower_limit) | (df['writing score'] > Upper_limit)]
+
+df['writing score_log'] = np.log(df['writing score'])
+fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+sns.histplot(data=df, x="writing score", ax=axes[0], kde=True)
+sns.histplot(data=df, x="writing score_log", ax=axes[1], kde=True)
+
+axes[0].set_title('Before Log Transformation')
+axes[1].set_title('After Log Transformation')
+
+plt.tight_layout()
+plt.show()
+
+df['writing score'].plot.hist(bins=10, edgecolor='black')  
+plt.title('Histogram of Writing Score')
+plt.xlabel('Writing Score')
+plt.ylabel('Frequency')
+plt.grid(True)
+plt.show()
+
+
+
+
+

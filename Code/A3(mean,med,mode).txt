@@ -1,0 +1,60 @@
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv("Employee_Salary_Dataset.csv")
+
+df.head()
+
+df.info()
+
+df.groupby('Gender')['Salary'].describe()
+
+df.groupby('Gender')['Salary'].mean()
+
+df.groupby('Gender')['Salary'].median()
+
+df.groupby('Gender')['Salary'].std()
+
+df.groupby('Gender')['Salary'].min()
+
+df.groupby('Gender')['Salary'].max()
+
+df.groupby('Gender')['Salary'].quantile(0.25)
+
+df.groupby('Gender')['Salary'].quantile(0.50)
+
+df.groupby('Gender')['Salary'].quantile(0.75)
+
+df1 = pd.read_csv("iris dataset.csv")
+
+df1.head()
+
+df1.shape
+
+df1[df1['species'] == "Iris-setosa"].describe()
+
+df1["species"].unique()
+
+df1[df1['species'] == "Iris-versicolor"].describe()
+
+df1[df1['species'] == "Iris-virginica"].describe()
+
+df1.info()
+
+df1['species'].unique()
+
+df1.groupby("species").mean()
+
+df1.groupby('species').median()
+
+df1.groupby('species').min()
+
+df1.groupby('species').max()
+
+df1.groupby('species').std()
+
+df1.groupby('species').quantile(0.25)
+
+df1.groupby('species').quantile(0.50)
+
+df1.groupby('species').quantile(0.75)

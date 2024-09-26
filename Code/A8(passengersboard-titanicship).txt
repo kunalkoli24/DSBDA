@@ -1,0 +1,24 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+warnings.filterwarnings('ignore')
+
+df = sns.load_dataset('titanic')
+
+df.head()
+
+df.info()
+
+df.shape
+
+df.size
+
+sns.pairplot(df , hue = 'survived')
+plt.show()
+
+plt.xlabel('Ticket Fare')
+plt.ylabel('Frequency')
+sns.histplot(df['fare'] , kde=True, bins=20)
+plt.show()
